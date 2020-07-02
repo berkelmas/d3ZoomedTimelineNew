@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "d3": "^5.16.0"
+  },
+  "browserslist": [
+    "last 1 Chrome version"
+  ],
+  "name": "d3Timeline",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
