@@ -1,9 +1,11 @@
 import * as d3 from "d3";
+import { BehaviorSubject } from "rxjs";
 
 export const width = 1000;
 export const height = 300;
 export let selectedDate = new Date(2020, 1, 1);
 export let currentZoom = 1;
+export const selectedID = new BehaviorSubject(null);
 
 export const xscale = d3
   .scaleTime()

@@ -1,13 +1,13 @@
 import { rescaleLinearGradientOnZoom } from "./add-defs";
 
-export const styleAxis = (mainSvg, xscale) => {
+export const styleAxis = (mainSvg, xscale, duration = 500) => {
   mainSvg
     .selectAll("g .tick")
     .selectAll("line")
     .attr("stroke", "#43A0EE")
     .style("opacity", 0)
     .transition()
-    .duration(400)
+    .duration(duration)
     .style("opacity", 0.4)
     .attr("y2", 100)
     .attr("y1", -100);
@@ -18,7 +18,7 @@ export const styleAxis = (mainSvg, xscale) => {
     .style("fill", "#43A0EE")
     .attr("r", 0)
     .transition()
-    .duration(600)
+    .duration(duration)
     .attr("r", 3.5);
 
   mainSvg

@@ -11,12 +11,6 @@ import { styleAxis } from "./styleAxis";
 import { clusterBuilder } from "./cluster-builder";
 import { notificationsData } from "../data/mock-data";
 
-let num = 2016;
-function* iter(i) {
-  num++;
-  yield num + 1;
-}
-
 export const handleDateChange = (year, onElementClick) => {
   setSelectedDate(new Date(year, 0, 1));
   xscale.domain(d3.extent([new Date(year, 0, 1), new Date(year, 11, 31)]));

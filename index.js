@@ -1,12 +1,14 @@
 import { createTimeline, zoomOnElement } from "./main";
+import { setSelectedID, selectedID } from "./utilities/globalVals";
+import { renderData } from "./utilities/render-data";
 
 createTimeline(
   "#container",
-  () => console.log("deneme"),
-  (d) => zoomOnElement(d.id)
+  () => "zoom",
+  (d) => console.log(d)
 );
 
 document.getElementById("zoom-button").addEventListener("click", (_) => {
   const val = document.getElementById("id-input").value;
-  zoomOnElement(val);
+  selectedID.next(val);
 });
