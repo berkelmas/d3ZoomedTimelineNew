@@ -12,8 +12,11 @@ import {
   xscale,
   x_axis,
   selectedID,
+  initialLocations,
+  zoomObj,
 } from "./utilities/globalVals";
 import { styleAxis } from "./utilities/styleAxis";
+import { zoomOnElement } from "./utilities/zoom-on-element";
 import {
   selectedDate,
   setCurrentZoom,
@@ -24,7 +27,7 @@ import { renderData } from "./utilities/render-data";
 import { take } from "rxjs/operators";
 
 let zoom;
-let initialLocations;
+// let initialLocations;
 let mainSvg;
 let clusteredData;
 let currentXScale = xscale;
@@ -93,6 +96,7 @@ export const createTimeline = (selector, onZoom, onElementClick) => {
         );
       });
     });
+  zoomObj.next(zoom);
   mainSvg.call(zoom);
 
   renderData(mainSvg, clusteredData, xscale, null, onElementClick, () =>
@@ -101,10 +105,12 @@ export const createTimeline = (selector, onZoom, onElementClick) => {
   styleAxis(mainSvg, xscale);
 
   // GET INITIAL LOCATIONS OF ALL DATA
-  initialLocations = notificationsData.map((item) => ({
-    ...item,
-    xPos: xscale(item.date),
-  }));
+  initialLocations.next(
+    notificationsData.map((item) => ({
+      ...item,
+      xPos: xscale(item.date),
+    }))
+  );
 
   selectedID.subscribe((id) => {
     if (id !== null) {
@@ -122,25 +128,22 @@ export const createTimeline = (selector, onZoom, onElementClick) => {
   });
 };
 
-export const zoomOnElement = () => {
-  selectedID.pipe(take(1)).subscribe((id) => {
-    if (id !== null || id !== undefined) {
-      const xPos = initialLocations.find((item) => item.id === id).xPos;
-      mainSvg
-        .transition()
-        .duration(1000)
-        .call(
-          zoom.transform,
-          d3.zoomIdentity
-            .translate(width / 2, height / 2)
-            .scale(8.5)
-            .translate(-xPos, 0)
-        );
-    }
-  });
-
-  // d3.transition().call(zoom.translateTo, xPos);
-
-  // zoom.scaleBy(mainSvg, 8.5);
-  // zoom.translateTo(mainSvg, xPos);
-};
+// export const zoomOnElement = () => {
+//   selectedID.pipe(take(1)).subscribe((id) => {
+//     if (id !== null || id !== undefined) {
+//       initialLocations.pipe(take(1)).subscribe((initialItems) => {
+//         const xPos = initialItems.find((item) => item.id === id).xPos;
+//         mainSvg
+//           .transition()
+//           .duration(1000)
+//           .call(
+//             zoom.transform,
+//             d3.zoomIdentity
+//               .translate(width / 2, height / 2)
+//               .scale(8.5)
+//               .translate(-xPos, 0)
+//           );
+//       });
+//     }
+//   });
+// };
