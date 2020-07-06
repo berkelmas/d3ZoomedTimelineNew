@@ -32,8 +32,8 @@ let mainSvg;
 let clusteredData;
 let currentXScale = xscale;
 
-export const createTimeline = (selector, onZoom, onElementClick) => {
-  clusteredData = clusterBuilder(notificationsData, 40);
+export const createTimeline = (selector, chartData, onZoom, onElementClick) => {
+  clusteredData = clusterBuilder(chartData, 40);
 
   const svgContainer = d3
     .select(selector)
@@ -78,7 +78,7 @@ export const createTimeline = (selector, onZoom, onElementClick) => {
       );
       onZoom(axisStartDate, axisEndDate);
 
-      clusteredData = clusterBuilder(notificationsData, 40 / currentZoom);
+      clusteredData = clusterBuilder(chartData, 40 / currentZoom);
       const new_xScale = d3.event.transform.rescaleX(xscale);
       currentXScale = new_xScale;
       setCurrentScale(d3.event.transform);
@@ -106,7 +106,7 @@ export const createTimeline = (selector, onZoom, onElementClick) => {
 
   // GET INITIAL LOCATIONS OF ALL DATA
   initialLocations.next(
-    notificationsData.map((item) => ({
+    chartData.map((item) => ({
       ...item,
       xPos: xscale(item.date),
     }))
