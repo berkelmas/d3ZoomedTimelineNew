@@ -1,14 +1,5 @@
-import { createTimeline, zoomOnElement } from "./main";
-import { setSelectedID, selectedID } from "./utilities/globalVals";
-import { renderData } from "./utilities/render-data";
-
-createTimeline(
-  "#container",
-  () => "zoom",
-  (d) => console.log(d)
-);
-
-document.getElementById("zoom-button").addEventListener("click", (_) => {
-  const val = document.getElementById("id-input").value;
-  selectedID.next(val);
-});
+export { createTimeline } from "./main";
+export { zoomOnElement } from "./utilities/zoom-on-element";
+export { handleDateChange } from "./utilities/handleDateChange";
+export { selectedID } from "./utilities/globalVals";
+export { notificationsData } from "./data/mock-data";
