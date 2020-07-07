@@ -1,11 +1,6 @@
 import * as d3 from "d3";
-import { notificationsData } from "./data/mock-data";
-import {
-  addMainPathLinearDef,
-  rescaleLinearGradientOnZoom,
-} from "./utilities/add-defs";
+import { addMainPathLinearDef } from "./utilities/add-defs";
 import { clusterBuilder } from "./utilities/cluster-builder";
-import { handleDateChange } from "./utilities/handleDateChange";
 import {
   width,
   height,
@@ -14,6 +9,7 @@ import {
   selectedID,
   initialLocations,
   zoomObj,
+  setSelectedDate,
 } from "./utilities/globalVals";
 import { styleAxis } from "./utilities/styleAxis";
 import { zoomOnElement } from "./utilities/zoom-on-element";
@@ -27,16 +23,41 @@ import { renderData } from "./utilities/render-data";
 import { take } from "rxjs/operators";
 
 let zoom;
-// let initialLocations;
 let mainSvg;
 let clusteredData;
 let currentXScale = xscale;
 
-export const createTimeline = (selector, chartData, onZoom, onElementClick) => {
+export const createTimeline = async (
+  selector,
+  chartData,
+  onZoom,
+  onElementClick
+) => {
   clusteredData = clusterBuilder(chartData, 40);
 
-  const svgContainer = d3
-    .select(selector)
+  setSelectedDate(new Date(new Date().getFullYear(), 1, 1));
+  xscale.domain(
+    d3.extent([
+      new Date(selectedDate.getFullYear(), 0, 1),
+      new Date(selectedDate.getFullYear(), 11, 31),
+    ])
+  );
+
+  currentXScale = d3
+    .scaleTime()
+    .domain(
+      d3.extent([
+        new Date(selectedDate.getFullYear(), 0, 1),
+        new Date(selectedDate.getFullYear(), 11, 31),
+      ])
+    )
+    .range([0, width - 100]);
+
+  zoomObj.next(null);
+  initialLocations.next(null);
+  setCurrentZoom(1);
+  setCurrentScale(null);
+  d3.select(selector)
     .append("svg")
     .attr("viewBox", `0 0 ${width} ${200}`)
     .attr("id", "js-svg");
@@ -44,6 +65,7 @@ export const createTimeline = (selector, chartData, onZoom, onElementClick) => {
 
   addMainPathLinearDef(mainSvg);
 
+  x_axis.scale(currentXScale);
   const xAxisTranslate = height / 3.5;
   const gX = mainSvg
     .append("g")
