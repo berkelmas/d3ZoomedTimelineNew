@@ -7,10 +7,11 @@ import {
   setSelectedDate,
   currentScale,
   selectedID,
+  mainData,
 } from "./globalVals";
 import { styleAxis } from "./styleAxis";
 import { clusterBuilder } from "./cluster-builder";
-import { notificationsData } from "../data/mock-data";
+// import { notificationsData } from "../data/mock-data";
 import { renderData } from "./render-data";
 import { zoomOnElement } from "./zoom-on-element";
 import { take } from "rxjs/operators";
@@ -26,7 +27,7 @@ export const handleDateChange = (year, onElementClick) => {
     d3.selectAll("#data-container-rect").remove();
     d3.selectAll("#today-line-group").remove();
     const newClusterData = clusterBuilder(
-      notificationsData,
+      mainData,
       currentScale ? 40 / currentScale.k : 40
     );
 
@@ -51,7 +52,7 @@ export const handleDateChange = (year, onElementClick) => {
 
     d3.selectAll("#data-container-rect").remove();
     const newClusterData = clusterBuilder(
-      notificationsData,
+      mainData,
       currentScale ? 40 / currentScale.k : 40
     );
 

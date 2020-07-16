@@ -10,6 +10,8 @@ import {
   initialLocations,
   zoomObj,
   setSelectedDate,
+  mainData,
+  setMainData,
 } from "./utilities/globalVals";
 import { styleAxis } from "./utilities/styleAxis";
 import { zoomOnElement } from "./utilities/zoom-on-element";
@@ -33,6 +35,7 @@ export const createTimeline = async (
   onZoom,
   onElementClick
 ) => {
+  setMainData(chartData);
   clusteredData = clusterBuilder(chartData, 40);
 
   setSelectedDate(new Date(new Date().getFullYear(), 1, 1));

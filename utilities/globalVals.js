@@ -8,6 +8,7 @@ export let currentZoom = 1;
 export const selectedID = new BehaviorSubject(null);
 export const initialLocations = new BehaviorSubject(null);
 export const zoomObj = new BehaviorSubject(null);
+export let mainData;
 
 export const xscale = d3
   .scaleTime()
@@ -31,4 +32,8 @@ export const setCurrentZoom = (newZoom) => {
 
 export const setCurrentScale = (newScale) => {
   currentScale = newScale;
+};
+
+export const setMainData = (data) => {
+  mainData = data;
 };
