@@ -22,6 +22,7 @@ export const handleDateChange = (year, onElementClick) => {
   const svg = d3.select("body").transition();
   if (currentScale) {
     const newXScale = currentScale.rescaleX(xscale);
+
     svg.select(".x.axis").call(d3.axisBottom().scale(newXScale));
 
     d3.selectAll("#data-container-rect").remove();
@@ -67,67 +68,6 @@ export const handleDateChange = (year, onElementClick) => {
         zoomOnElement
       );
     });
-    // const newRectEls = d3
-    //   .select("#js-svg")
-    //   .selectAll(".rect")
-    //   .data(newClusterData)
-    //   .enter()
-    //   .append("g")
-    //   .attr("id", "data-container-rect");
-
-    // // RENDER NORMAL DATA
-    // newRectEls
-    //   .append("rect")
-    //   .filter((d) => d["type"] !== "cluster")
-    //   .attr("x", (d) => xscale(d.date))
-    //   .attr("width", 55)
-    //   .attr("height", 16)
-    //   .attr("y", 60)
-    //   .attr("r", 5)
-    //   .attr("rx", 2)
-    //   .style("fill", "#43A0EE")
-    //   .style("cursor", "pointer")
-    //   .on("click", (d) => onElementClick(d));
-
-    // // RENDER CLUSTERS
-    // newRectEls
-    //   .append("rect")
-    //   .filter((d) => d["type"] === "cluster")
-    //   .attr("x", (d) => xscale(d.date))
-    //   .attr("width", 27)
-    //   .attr("height", 27)
-    //   .attr("y", 48)
-    //   .attr("r", 5)
-    //   .attr("rx", 2)
-    //   .style("fill", "#F5B640");
-    // // ADD TEXT TO NORMAL DATA
-    // newRectEls
-    //   .append("text")
-    //   .filter((d) => d["type"] !== "cluster")
-    //   .attr("x", function (d, i) {
-    //     return xscale(d.date) + 10;
-    //   })
-    //   .attr("y", 71)
-    //   .attr("id", "item-id-text")
-    //   .style("font-size", "9px")
-    //   .style("fill", "white")
-    //   .text((d) => d.id)
-    //   .style("cursor", "pointer")
-    //   .on("click", (d) => onElementClick(d));
-
-    // // ADD TEXT TO CLUSTERS
-    // newRectEls
-    //   .append("text")
-    //   .filter((d) => d["type"] === "cluster")
-    //   .attr("x", function (d, i) {
-    //     return xscale(d.date) + 10;
-    //   })
-    //   .attr("y", 66)
-    //   .attr("id", "item-id-text")
-    //   .style("font-size", "14px")
-    //   .style("fill", "white")
-    //   .text((d) => d.children.length);
-
     styleAxis(d3.select("#js-svg"), xscale);
 
     d3.select("#js-svg")

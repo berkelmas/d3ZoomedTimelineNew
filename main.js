@@ -11,6 +11,7 @@ import {
   zoomObj,
   setSelectedDate,
   mainData,
+  currentScale,
   setMainData,
 } from "./utilities/globalVals";
 import { styleAxis } from "./utilities/styleAxis";
@@ -106,6 +107,7 @@ export const createTimeline = async (
       clusteredData = clusterBuilder(chartData, 40 / currentZoom);
       const new_xScale = d3.event.transform.rescaleX(xscale);
       currentXScale = new_xScale;
+
       setCurrentScale(d3.event.transform);
 
       d3.selectAll("#data-container-rect").remove();
@@ -141,14 +143,30 @@ export const createTimeline = async (
     if (id !== null) {
       d3.selectAll("#data-container-rect").remove();
       d3.selectAll("#today-line-group").remove();
-      renderData(
-        mainSvg,
-        clusteredData,
-        currentXScale,
-        id,
-        onElementClick,
-        (_) => zoomOnElement()
-      );
+      if (currentScale) {
+        renderData(
+          mainSvg,
+          clusteredData,
+          currentXScale,
+          id,
+          onElementClick,
+          (_) => zoomOnElement()
+        );
+      } else {
+        renderData(
+          mainSvg,
+          clusteredData,
+          currentXScale.domain(
+            d3.extent([
+              new Date(selectedDate.getFullYear(), 0, 1),
+              new Date(selectedDate.getFullYear(), 11, 31),
+            ])
+          ),
+          id,
+          onElementClick,
+          (_) => zoomOnElement()
+        );
+      }
     }
   });
 };
