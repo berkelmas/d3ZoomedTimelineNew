@@ -5,11 +5,12 @@ import {
   width,
   height,
   zoomObj,
+  zoomedOnClickState,
 } from "./globalVals";
 import { take } from "rxjs/operators";
 
 export const zoomOnElement = () => {
-  zoomObj.subscribe((zoom) => {
+  zoomObj.pipe(take(1)).subscribe((zoom) => {
     if (zoom !== null) {
       selectedID.pipe(take(1)).subscribe((id) => {
         if (id !== null || id !== undefined) {
@@ -26,6 +27,7 @@ export const zoomOnElement = () => {
                     .scale(8.5)
                     .translate(-xPos, 0)
                 );
+              zoomedOnClickState.next(true);
             }
           });
         }

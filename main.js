@@ -13,9 +13,14 @@ import {
   mainData,
   currentScale,
   setMainData,
+  zoomedOnClickState,
 } from "./utilities/globalVals";
 import { styleAxis } from "./utilities/styleAxis";
 import { zoomOnElement } from "./utilities/zoom-on-element";
+import {
+  addZoomOutButton,
+  removeZoomOutButton,
+} from "./utilities/zoom-out-button";
 import {
   selectedDate,
   setCurrentZoom,
@@ -59,6 +64,7 @@ export const createTimeline = async (
 
   zoomObj.next(null);
   initialLocations.next(null);
+  zoomedOnClickState.next(false);
   setCurrentZoom(1);
   setCurrentScale(null);
   d3.select(selector)
@@ -139,6 +145,14 @@ export const createTimeline = async (
     }))
   );
 
+  zoomedOnClickState.subscribe((res) => {
+    if (res) {
+      addZoomOutButton();
+    } else {
+      removeZoomOutButton();
+    }
+  });
+
   selectedID.subscribe((id) => {
     if (id !== null) {
       d3.selectAll("#data-container-rect").remove();
@@ -170,23 +184,3 @@ export const createTimeline = async (
     }
   });
 };
-
-// export const zoomOnElement = () => {
-//   selectedID.pipe(take(1)).subscribe((id) => {
-//     if (id !== null || id !== undefined) {
-//       initialLocations.pipe(take(1)).subscribe((initialItems) => {
-//         const xPos = initialItems.find((item) => item.id === id).xPos;
-//         mainSvg
-//           .transition()
-//           .duration(1000)
-//           .call(
-//             zoom.transform,
-//             d3.zoomIdentity
-//               .translate(width / 2, height / 2)
-//               .scale(8.5)
-//               .translate(-xPos, 0)
-//           );
-//       });
-//     }
-//   });
-// };

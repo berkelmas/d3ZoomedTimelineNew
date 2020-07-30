@@ -8,6 +8,7 @@ export let currentZoom = 1;
 export const selectedID = new BehaviorSubject(null);
 export const initialLocations = new BehaviorSubject(null);
 export const zoomObj = new BehaviorSubject(null);
+export const zoomedOnClickState = new BehaviorSubject(false);
 export let mainData;
 
 export const xscale = d3
