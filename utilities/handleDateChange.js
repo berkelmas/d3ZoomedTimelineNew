@@ -8,6 +8,7 @@ import {
   currentScale,
   selectedID,
   mainData,
+  initialLocations,
 } from "./globalVals";
 import { styleAxis } from "./styleAxis";
 import { clusterBuilder } from "./cluster-builder";
@@ -19,6 +20,12 @@ import { take } from "rxjs/operators";
 export const handleDateChange = (year, onElementClick) => {
   setSelectedDate(new Date(year, 0, 1));
   xscale.domain(d3.extent([new Date(year, 0, 1), new Date(year, 11, 31)]));
+  initialLocations.next(
+    mainData.map((item) => ({
+      ...item,
+      xPos: xscale(item.date),
+    }))
+  );
   const svg = d3.select("body").transition();
   if (currentScale) {
     const newXScale = currentScale.rescaleX(xscale);
